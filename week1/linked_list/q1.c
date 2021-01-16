@@ -2,6 +2,13 @@
 #include <stdio.h>
 struct node { int data; struct node *next, *prev; };
 
+
+void MergeSort(){
+
+
+
+}
+
 void FuncA(struct node **start, int value) {
     if (!*start) {
         struct node *new_node = malloc(sizeof(struct node));
