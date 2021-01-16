@@ -5,7 +5,7 @@ struct node { int data; struct node *next, *prev; };
 
 void MergeSort(){
 
-
+    printf("Hello, merge sort.\n");
 
 }
 
