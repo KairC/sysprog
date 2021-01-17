@@ -10,7 +10,6 @@ void FuncA(struct node **start, int value) {
         new_node->data = value;
         new_node->next = new_node->prev = new_node;
         *start = new_node;
-//        (*count)++;
         return;
     }
     struct node *last = (*start)->prev;
@@ -20,7 +19,6 @@ void FuncA(struct node **start, int value) {
     (*start)->prev = new_node;
     new_node->prev = last;
     last->next = new_node;
-  //  (*count)++;
 }
 
 void FuncB(struct node **start, int value) {
@@ -31,7 +29,6 @@ void FuncB(struct node **start, int value) {
     new_node->prev = last;
     last->next = (*start)->prev = new_node;
     *start = new_node;
-   // (*count)++;
 }
 
 void FuncC(struct node **start, int value1, int value2) {
@@ -45,7 +42,6 @@ void FuncC(struct node **start, int value1, int value2) {
     new_node->prev = temp;
     new_node->next = next;
     next->prev = new_node;
-   // (*count)++;
 }
 
 void display(struct node *start, int *count) {
@@ -113,20 +109,18 @@ struct node* MergeSort(struct node **start, int low, int high){
                 }
                 FuncA(&head, q->data);
             }
-            if(p != NULL) //check if the last of p is still exist.
+            if(p != NULL && p->data <= q->data) //check if the last of p is still exist.
             {
-                if(p->data <= q->data)
-                {
-                    FuncA(&head, p->data);
-                    FuncA(&head, q->data);
-                }
-                else
-                {
-                    FuncA(&head, q->data);
-                    FuncA(&head, p->data);
-                }
+                //if the last of p is smaller than the last of q.
+                FuncA(&head, p->data);
+                FuncA(&head, q->data);
             }
-            else
+            else if(p != NULL && p->data > q->data)
+            {
+                FuncA(&head, q->data);
+                FuncA(&head, p->data);
+            }
+            else //the last of p is not exist.
             {
                 FuncA(&head, q->data);
             }
@@ -142,18 +136,15 @@ struct node* MergeSort(struct node **start, int low, int high){
                 }
                 FuncA(&head, p->data);
             }
-            if(q != NULL)
+            if(q != NULL && q->data <= p->data)
             {
-                if(q->data <= p->data)
-                {
-                    FuncA(&head, q->data);
-                    FuncA(&head, p->data);
-                }
-                else
-                {
-                    FuncA(&head, p->data);
-                    FuncA(&head, q->data);
-                }
+                FuncA(&head, q->data);
+                FuncA(&head, p->data);
+            }
+            else if(q != NULL && q->data > p->data)
+            {
+                FuncA(&head, p->data);
+                FuncA(&head, q->data);
             }
             else
             {
@@ -176,9 +167,12 @@ int main() {
     FuncA(&start, 77);
     FuncC(&start, 63, 51); 
     FuncB(&start, 100);
+    FuncC(&start, 200, 72); 
+    FuncA(&start, 51); 
     display(start, &count);
     temp = start;
     start = MergeSort(&start, 1, count);
+    free(temp);
     display(start, &count);
     return 0;
 }
